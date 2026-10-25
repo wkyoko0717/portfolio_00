@@ -36,39 +36,34 @@
   <div class="cursor" id="cursor"></div>
   <div class="cursor-follower" id="cursor-follower"></div>
 
-  <!-- ========================================
-       NAV
-  ========================================= -->
+  <!-- NAV -->
   <nav class="nav" id="nav">
     <a href="#hero" class="nav__name">KYOKO MOMOSE</a>
-    <ul class="nav__links">
+    <ul class="nav__links" id="nav-links">
       <li><a href="#about">PROFILE</a></li>
       <li><a href="#web">WEB</a></li>
       <li><a href="#video">VIDEO</a></li>
       <li><a href="#writing">WRITING</a></li>
     </ul>
-    <div class="nav__menu" aria-label="メニュー">
+    <button type="button" class="nav__menu" aria-label="メニューを開く" aria-controls="nav-links" aria-expanded="false">
       <span></span>
       <span></span>
-    </div>
+    </button>
   </nav>
 
-  <!-- ========================================
-       HERO
-  ========================================= -->
+  <!-- HERO -->
   <section class="hero" id="hero">
     <div class="hero__content">
       <span class="hero__label">Creative Director / Designer</span>
       <h1 class="hero__title">
         <span class="hero__title-line">KYOKO</span>
-        <span class="hero__title-line hero__title-line--italic">MOMOSE</span>
+        <span class="hero__title-line">MOMOSE</span>
       </h1>
       <p class="hero__sub">Web Design · Video · Writing · Music</p>
     </div>
 
     <div class="hero__image">
       <div class="placeholder"><video src="images/sunawa.mov" autoplay muted loop playsinline></video></div>
-      <!-- <div class="placeholder"><img src="images/sunawa.png" alt=""></div> -->
     </div>
 
     <div class="hero__scroll" aria-hidden="true">
@@ -79,9 +74,7 @@
 
   <div class="divider"></div>
 
-  <!-- ========================================
-     ABOUT
-========================================= -->
+  <!-- ABOUT -->
   <section class="about section" id="about">
     <div class="section__label js-fade-line">PROFILE</div>
 
@@ -161,9 +154,7 @@
 
   <div class="divider"></div>
 
-  <!-- ========================================
-       GAME
-  ========================================= -->
+  <!-- GAME -->
   <section class="section" id="game">
     <div class="section__label js-fade-line">GAME</div>
     <p class="section__desc js-fade">任天堂株式会社在籍時に携わった作品です。</p>
@@ -235,6 +226,10 @@
 
       <!-- プログレスバー -->
       <div class="game-progress">
+        <div class="game-next-scroll" id="gameNextScroll" aria-hidden="true">
+          <span>SCROLL</span>
+          <div class="hero__scroll-line"></div>
+        </div>
         <div class="game-progress__bar" id="gameProgressBar"></div>
       </div>
 
@@ -248,9 +243,7 @@
 
   <div class="divider"></div>
 
-  <!-- ========================================
-       WEB WORKS
-  ========================================= -->
+  <!-- WEB WORKS -->
   <section class="works section" id="web">
     <div class="section__label js-fade-line">WEB</div>
     <p class="section__desc js-fade">私がデザインしたウェブページです。<br><small>このポートフォリオも、制作実績の一つとしてご覧ください。</small></p>
@@ -328,9 +321,7 @@
 
   <div class="divider"></div>
 
-  <!-- ========================================
-       VIDEO
-  ========================================= -->
+  <!-- VIDEO -->
   <section class="section" id="video">
     <div class="section__label js-fade-line">VIDEO</div>
     <p class="section__desc js-fade">私が手掛けた映像作品です。</p>
@@ -387,9 +378,7 @@
 
   <div class="divider"></div>
 
-  <!-- ========================================
-       WRITING
-  ========================================= -->
+  <!-- WRITING -->
   <section class="section" id="writing">
     <div class="section__label js-fade-line">WRITING</div>
     <p class="section__desc js-fade">心理テストやブログなどのライティング実績です。</p>
@@ -455,9 +444,7 @@
     </div>
   </section>
 
-  <!-- ========================================
-       FOOTER
-  ========================================= -->
+  <!-- FOOTER -->
   <footer class="footer">
     <p class="footer__name">Kyoko Momose</p>
     <p class="footer__copy">© 2026 KYOKO MOMOSE. All rights reserved.</p>

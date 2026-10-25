@@ -1,3 +1,36 @@
+// モバイルナビゲーション
+(function initMobileNav() {
+  const nav = document.querySelector('.nav');
+  const button = document.querySelector('.nav__menu');
+  const links = document.querySelector('.nav__links');
+  const mobile = window.matchMedia('(max-width: 768px)');
+  function setOpen(open) {
+    nav.classList.toggle('is-open', open);
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  }
+  button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+  links.addEventListener('click', event => {
+    if (event.target.closest('a')) {
+      setOpen(false);
+      if (mobile.matches) button.focus();
+    }
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+      setOpen(false);
+      button.focus();
+    }
+  });
+  document.addEventListener('click', event => {
+    if (!nav.contains(event.target)) setOpen(false);
+  });
+  nav.addEventListener('focusout', event => {
+    if (!nav.contains(event.relatedTarget)) setOpen(false);
+  });
+  mobile.addEventListener('change', () => setOpen(false));
+})();
+
 // ============================================================
 //  script.js — GSAP Animations
 //  依存: gsap.min.js, ScrollTrigger.min.js
@@ -333,21 +366,32 @@ const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   const track = qs('#gameTrack');
   const progress = qs('#gameProgressBar');
   const hint = qs('#gameDragHint');
+  const nextScroll = qs('#gameNextScroll');
   if (!wrap || !track) return;
 
-  // トラック全体の横幅 - 画面幅 = スクロールさせる量
-  const getScrollAmount = () => -(track.scrollWidth - window.innerWidth + 1500);
+  // 一覧が流れ切った後は、短い案内区間を経て固定を解除する。
+  const exitScrollDistance = 160;
+  const getScrollAmount = () => -(track.scrollWidth + exitScrollDistance);
+  const updateNextScroll = () => {
+    if (!nextScroll) return;
+    const trackBounds = track.getBoundingClientRect();
+    const wrapBounds = wrap.getBoundingClientRect();
+    nextScroll.classList.toggle('is-visible', trackBounds.right <= wrapBounds.left);
+  };
 
   // ピン留め＋横スクロール
   gsap.to(track, {
     x: getScrollAmount,
     ease: 'none',
+    onUpdate: updateNextScroll,
     scrollTrigger: {
       trigger: wrap,
+      invalidateOnRefresh: true,
+      onRefresh: updateNextScroll,
       pin: true,           // このセクションを画面に固定
-      scrub: 1.2,          // 縦スクロール量を横移動に変換（大きいほどぬるぬる）
+      scrub: 0.6,          // スクロール操作への追従を滑らかにする
       start: 'top 200px',    // wrapの上端が画面上端に来たら固定開始
-      end: () => `+=${track.scrollWidth + 1500}`, // トラック全幅分スクロールしたら解除
+      end: () => `+=${-getScrollAmount()}`,
       anticipatePin: 1,
       onUpdate: (self) => {
         if (progress) progress.style.width = `${self.progress * 100}%`;
