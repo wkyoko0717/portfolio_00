@@ -1,6 +1,4 @@
-// ============================================================
 //  _base.scss
-// ============================================================
 @use 'variables' as v;
 
 *,
@@ -168,25 +166,7 @@ h3 {
   margin: 0 var(--gutter);
   width: calc(100% - var(--gutter) * 2);
 }
-
-// スクロール時の非表示（GSAP初期値用）
-// .js-fade {
-//   opacity: 0;
-//   transform: translateY(30px);
-// }
-
-// .js-fade-line {
-//   opacity: 0;
-//   transform: translateX(-20px);
-// }
-
-// .js-clip {
-//   clip-path: inset(100% 0 0 0);
-// }
-
-// ============================================================
 //  AMBIENT LIGHTS（背景光源）
-// ============================================================
 .ambient-lights {
   position: fixed;
   inset: 0;

@@ -1,11 +1,7 @@
-// ============================================================
 //  _components.scss
-// ============================================================
 @use 'variables' as v;
 
-// ============================================================
 //  NAV
-// ============================================================
 .nav {
   position: fixed;
   top: 0;
@@ -67,9 +63,7 @@
   }
 }
 
-// ============================================================
 //  HERO
-// ============================================================
 .hero {
   min-height: 100svh;
   display: grid;
@@ -163,7 +157,7 @@
   &__scroll {
     position: absolute;
     bottom: 40px;
-    left: var(--gutter);
+    right: var(--gutter);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -207,9 +201,7 @@
   }
 }
 
-// ============================================================
 //  ABOUT
-// ============================================================
 .about {
   &__inner {
     display: grid;
@@ -224,13 +216,10 @@
   }
 
   &__image {
-    // aspect-ratio: 3 / 4;
     border-radius: 50%;
     overflow: hidden;
-    // position: sticky;
     top: 100px;
     filter: grayscale(0.4);
-    // box-shadow: 10px 10px 10px rgba(10, 9, 7, 0.6);
 
     @media (max-width: v.$bp-md) {
       position: static;
@@ -291,9 +280,7 @@
   }
 }
 
-// ============================================================
 //  STRENGTHS（自己PR）
-// ============================================================
 .strengths {
   margin-top: 120px;
 
@@ -400,9 +387,7 @@
   }
 }
 
-// ============================================================
 //  WORKS GRID (WEB)
-// ============================================================
 .works {
 
   .section__desc {
@@ -421,7 +406,7 @@
     }
 
     @media (max-width: v.$bp-sm) {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 }
@@ -489,9 +474,7 @@
   }
 }
 
-// ============================================================
 //  VIDEO SECTION
-// ============================================================
 .video-works {
   display: flex;
   flex-direction: column;
@@ -594,9 +577,7 @@
   }
 }
 
-// ============================================================
 //  WRITING SECTION
-// ============================================================
 .writing-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -607,7 +588,7 @@
   }
 
   @media (max-width: v.$bp-sm) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -650,9 +631,7 @@
   }
 }
 
-// ============================================================
 //  FOOTER
-// ============================================================
 .footer {
   padding: 60px var(--gutter);
   border-top: 1px solid var(--border);
@@ -682,9 +661,7 @@
   }
 }
 
-// ============================================================
 //  NOISE OVERLAY (グレインエフェクト)
-// ============================================================
 .noise {
   position: fixed;
   inset: 0;
@@ -696,16 +673,13 @@
   background-size: 150px;
 }
 
-// ============================================================
 //  GAME SECTION — 水平ドラッグスクロール
-// ============================================================
 .game-scroll-wrap {
   position: relative;
   overflow: hidden;
   cursor: grab;
   user-select: none;
   padding-bottom: 48px;
-
 
   &:active {
     cursor: grabbing;
@@ -844,7 +818,6 @@
   }
 }
 
-
 // プログレスバー
 .game-progress {
   height: 1px;
@@ -893,4 +866,82 @@
     transform: translateX(8px);
     opacity: 0.4;
   }
+}
+
+.nav__menu {
+  border: 0;
+  background: transparent;
+  padding: 10px;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+.nav__menu:focus-visible, .nav__links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+@media (max-width: 768px) {
+  .nav.is-open {
+    mix-blend-mode: normal !important;
+    background: var(--bg);
+  }
+  .nav.is-open .nav__links {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 12px var(--gutter) 24px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    max-height: calc(100svh - 100px);
+    overflow-y: auto;
+  }
+  .nav__links a {
+    display: block;
+    padding: 16px 0;
+    font-size: 12px;
+  }
+  .nav.is-open .nav__menu span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .nav.is-open .nav__menu span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .works__grid, .writing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .works__grid { gap: 12px; }
+  .work-card, .writing-item { min-width: 0; overflow-wrap: anywhere; }
+  .work-card__info h3 { font-size: 12px; letter-spacing: 0.05em; }
+  .work-card__info p { letter-spacing: 0.05em; }
+  .writing-item { padding: 20px 10px; }
+  .writing-item__image { transform: none; margin-bottom: 14px; }
+  .writing-item__title { font-size: 16px; }
+  .writing-item__sub, .writing-item__role { letter-spacing: 0.05em; }
+}
+
+.game-next-scroll {
+  position: absolute;
+  bottom: 49px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s;
+}
+.game-next-scroll.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+.game-next-scroll > span {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-next-scroll { transition: none; }
+  .game-next-scroll .hero__scroll-line { animation: none; }
 }
