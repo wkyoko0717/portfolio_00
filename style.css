@@ -326,6 +326,12 @@ h3 {
   align-items: center;
   gap: 16px;
 }
+@media (min-width: 769px) {
+  .hero__scroll {
+    left: var(--gutter);
+    right: auto;
+  }
+}
 .hero__scroll span {
   font-size: 9px;
   letter-spacing: 0.4em;
@@ -921,7 +927,7 @@ h3 {
   position: absolute;
   bottom: 56px;
   right: var(--gutter);
-  display: flex;
+  display: none;
   align-items: center;
   gap: 12px;
   font-size: 10px;
@@ -1020,4 +1026,11 @@ h3 {
 @media (prefers-reduced-motion: reduce) {
   .game-next-scroll { transition: none; }
   .game-next-scroll .hero__scroll-line { animation: none; }
+}
+
+@media (max-width: 768px), (hover: none) {
+  .game-slide__image .placeholder,
+  .game-slide__image img {
+    filter: grayscale(0%);
+  }
 }

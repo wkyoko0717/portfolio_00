@@ -109,6 +109,7 @@ const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
       opacity: 0,
       y: -20,
       duration: 1,
+      clearProps: 'opacity,transform',
     }, '-=1')
     .from('.hero__scroll', {
       opacity: 0,
@@ -268,24 +269,6 @@ const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 })();
 
 // ============================================================
-//  6. ナビの背景（スクロール時に少し暗くする）
-// ============================================================
-(function initNavScroll() {
-  ScrollTrigger.create({
-    start: 'top -80',
-    onUpdate: (self) => {
-      const nav = qs('.nav');
-      if (!nav) return;
-      if (self.direction === 1 && self.scroll() > 80) {
-        nav.style.mixBlendMode = 'normal';
-      } else {
-        nav.style.mixBlendMode = 'difference';
-      }
-    }
-  });
-})();
-
-// ============================================================
 //  背景光源パララックス
 // ============================================================
 (function initAmbientParallax() {
@@ -390,7 +373,13 @@ const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
       onRefresh: updateNextScroll,
       pin: true,           // このセクションを画面に固定
       scrub: 0.6,          // スクロール操作への追従を滑らかにする
-      start: 'top 200px',    // wrapの上端が画面上端に来たら固定開始
+      start: () => {
+        // 画面幅にかかわらず上寄りで固定し、進捗バーの下に24pxの余白を確保する。
+        const bar = progress?.parentElement;
+        const barBottom = bar ? bar.offsetTop + bar.offsetHeight : wrap.offsetHeight;
+        const pinTop = Math.min(80, window.innerHeight - barBottom - 24);
+        return `top ${pinTop}px`;
+      },
       end: () => `+=${-getScrollAmount()}`,
       anticipatePin: 1,
       onUpdate: (self) => {
