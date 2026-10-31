@@ -1034,3 +1034,62 @@ h3 {
     filter: grayscale(0%);
   }
 }
+
+
+/* WEB作品の詳細カード */
+.work-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(940px, calc(100% - 48px));
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 4px;
+  background: rgba(76, 48, 31, 0.48);
+  color: #fff;
+  box-shadow: 0 28px 100px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px) saturate(115%);
+  -webkit-backdrop-filter: blur(24px) saturate(115%);
+  overflow: auto;
+  cursor: auto;
+}
+.work-dialog::backdrop { background: rgba(20, 16, 13, 0.32); }
+.work-dialog[open] { animation: work-dialog-in 0.25s ease-out; }
+.work-dialog__card { display: grid; grid-template-columns: 0.85fr 1.15fr; position: relative; }
+.work-dialog__visual { min-width: 0; background: rgba(33, 23, 17, 0.24); }
+.work-dialog__visual img { width: 100%; height: 100%; max-height: 700px; object-fit: cover; object-position: top; }
+.work-dialog__body { padding: 60px 42px 44px; min-width: 0; overflow-wrap: anywhere; }
+.work-dialog__eyebrow { font-size: 10px; letter-spacing: 0.2em; opacity: 0.7; margin-bottom: 20px; }
+.work-dialog h2 { font-size: clamp(24px, 3vw, 36px); font-weight: 400; line-height: 1.4; letter-spacing: 0.04em; }
+.work-dialog__category { font-size: 12px; opacity: 0.75; margin-top: 10px; }
+.work-dialog__note { margin-top: 30px; }
+.work-dialog__note h3 {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  letter-spacing: 0.12em;
+}
+.work-dialog__note p { font-size: 14px; font-weight: 300; line-height: 2; white-space: pre-line; }
+.work-dialog__close { position: absolute; top: 12px; right: 12px; z-index: 1; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; background: rgba(57,35,23,0.7); color: #fff; font: 28px/1 sans-serif; cursor: pointer; }
+.work-dialog__visit { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 36px; padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.45); border-bottom: 1px solid rgba(255,255,255,0.45); color: #fff; font-size: 13px; cursor: pointer; }
+.work-dialog__visit:hover { background: rgba(255,255,255,0.07); }
+.work-dialog :focus-visible, #web .work-card:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.work-dialog__sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@keyframes work-dialog-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 768px) {
+  .work-dialog { width: calc(100% - 28px); max-height: calc(100dvh - 28px); }
+  .work-dialog__card { grid-template-columns: 1fr; }
+  .work-dialog__visual { display: none; }
+  .work-dialog__visual img { object-position: top; }
+  .work-dialog__body { padding: 68px 24px 28px; }
+  .work-dialog__note { margin-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .work-dialog[open] { animation: none; } }
+
+/* ライティング作品の一言説明 */
+.work-dialog__summary { margin-top: 30px; font-size: 14px; font-weight: 300; line-height: 2; white-space: pre-line; }

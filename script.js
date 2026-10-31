@@ -1,3 +1,52 @@
+// WEB・ライティング作品の詳細カード（GSAPに依存せず、読み込み失敗時も操作可能）
+(function initWorkDetails() {
+  const dialog = document.querySelector('#workDialog');
+  if (!dialog || typeof dialog.showModal !== 'function') return;
+  const cards = document.querySelectorAll('#web .work-card, #writing .writing-item');
+  const close = dialog.querySelector('.work-dialog__close');
+  let opener;
+  let previousOverflow;
+  cards.forEach(card => {
+    card.setAttribute('aria-haspopup', 'dialog');
+    card.setAttribute('aria-controls', 'workDialog');
+    card.addEventListener('click', event => {
+      // 修飾キーで開く通常のリンク操作は維持する。
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      opener = card;
+      const image = card.querySelector('img');
+      dialog.querySelector('#workDialogTitle').textContent = card.querySelector('h3').textContent;
+      const isWriting = card.matches('.writing-item');
+      dialog.querySelector('.work-dialog__eyebrow').textContent = isWriting ? 'WRITING / PROJECT NOTE' : 'WEB DESIGN / PROJECT NOTE';
+      dialog.querySelector('#workDialogCategory').textContent = card.querySelector(isWriting ? '.writing-item__sub' : '.work-card__info p').textContent;
+      dialog.querySelectorAll('.work-dialog__note').forEach(note => { note.hidden = isWriting; });
+      const summary = dialog.querySelector('#workDialogSummary');
+      summary.hidden = !isWriting;
+      summary.textContent = isWriting ? (card.dataset.description || 'この作品についての一言説明を、ここに掲載予定です。') : '';
+      const preview = dialog.querySelector('#workDialogImage');
+      preview.src = image.src;
+      preview.alt = image.alt;
+      dialog.querySelector('#workDialogIntent').textContent = card.dataset.intent || 'この作品の企画背景・目的を、ここに掲載予定です。';
+      dialog.querySelector('#workDialogPoints').textContent = card.dataset.points || 'デザインや制作で工夫した点を、ここに掲載予定です。';
+      dialog.querySelector('#workDialogVisit').href = card.href;
+      previousOverflow = document.body.style.overflow;
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  close.addEventListener('click', () => dialog.close());
+  let startedOutside = false;
+  dialog.addEventListener('pointerdown', event => { startedOutside = event.target === dialog; });
+  dialog.addEventListener('click', event => {
+    if (startedOutside && event.target === dialog) dialog.close();
+    startedOutside = false;
+  });
+  dialog.addEventListener('close', () => {
+    document.body.style.overflow = previousOverflow || '';
+    opener?.focus({ preventScroll: true });
+  });
+})();
+
 // モバイルナビゲーション
 (function initMobileNav() {
   const nav = document.querySelector('.nav');
